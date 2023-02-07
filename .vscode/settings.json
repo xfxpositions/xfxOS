@@ -1,3 +1,6 @@
 {
-    "nuxt.isNuxtApp": false
+  "rust.target": "thumbv7em-none-eabihf",
+  "rust.all_targets": false,
+  "rust-analyzer.cargo.target": "thumbv7em-none-eabihf",
+  "rust-analyzer.checkOnSave.allTargets": false
 }
