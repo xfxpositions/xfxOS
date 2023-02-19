@@ -4,8 +4,9 @@ mod vga_print;
 
 use core::{panic::PanicInfo};
 
+use gdt::SegmentDescriptor;
 use vga_print::{VGACOLORS, Buffer};
-
+mod gdt;
 
 static HELLO: &[u8] = b"Hello World!";
 #[panic_handler]
@@ -14,7 +15,8 @@ fn panic(_info: &PanicInfo) -> ! {
 }
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    
+    let null_descriptor = SegmentDescriptor::new(0,0,0);
+
     let vga_buffer = unsafe{ &mut *(0xb8000 as *mut Buffer) };
     let mut printer = vga_print::Printer { vga_buffer: vga_buffer, row_position: 0,col_position:0,default_bg:VGACOLORS::BLACK,default_fg:VGACOLORS::MAGENTA};
     printer.print_chr('\n' as u8,VGACOLORS::MAGENTA,VGACOLORS::BLACK);
@@ -28,7 +30,6 @@ pub extern "C" fn _start() -> ! {
     printer.println_colored("Deneme ",VGACOLORS::CYAN,VGACOLORS::BLACK);
     printer.print("Deneme");
     
-
 
 
 
